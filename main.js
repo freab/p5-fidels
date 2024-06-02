@@ -44,6 +44,12 @@ new p5((p) => {
     for (let i = polygons.length - 1; i >= 0; i--) {
       let polygon = polygons[i];
 
+      if (polygon.position.y > p.height + 100) {
+        Matter.World.remove(world, polygon);
+        polygons.splice(i, 1);
+        continue;
+      }
+
       p.push();
       p.translate(polygon.position.x, polygon.position.y);
       p.rotate(polygon.angle);
@@ -54,11 +60,6 @@ new p5((p) => {
       p.textSize(polygon.radius * 2);
       p.text(polygon.string, 0, 0);
       p.pop();
-
-      if (polygon.position.y > p.height + 100) {
-        Matter.World.remove(world, polygon);
-        polygons.splice(i, 1);
-      }
     }
   };
 
